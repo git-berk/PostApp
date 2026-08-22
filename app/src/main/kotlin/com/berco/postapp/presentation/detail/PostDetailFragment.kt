@@ -2,6 +2,8 @@ package com.berco.postapp.presentation.detail
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
@@ -15,7 +17,7 @@ import com.berco.postapp.R
 import com.berco.postapp.databinding.FragmentPostDetailBinding
 import com.berco.postapp.domain.model.Post
 import com.berco.postapp.presentation.posts.heroUrl
-import com.berco.postapp.shared.ui.applyBottomSystemBarPadding
+import com.berco.postapp.shared.ui.applyBottomInsetPadding
 import com.berco.postapp.shared.ui.applyTopSystemBarMargin
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -32,9 +34,6 @@ class PostDetailFragment : Fragment(R.layout.fragment_post_detail) {
     private val binding get() = _binding!!
 
     private val viewModel: PostDetailViewModel by viewModels()
-
-    // Guards against the text watcher echoing programmatic setText back into the
-    // draft, which would fight the user's cursor on every state emission.
     private var isBindingDraft = false
     private var boundImageIndex: Int? = null
     private var currentPost: Post? = null
@@ -47,7 +46,7 @@ class PostDetailFragment : Fragment(R.layout.fragment_post_detail) {
         boundImageIndex = null
         binding.backButton.applyTopSystemBarMargin()
         binding.badge.applyTopSystemBarMargin()
-        binding.scrollView.applyBottomSystemBarPadding()
+        binding.scrollView.applyBottomInsetPadding()
 
         setUpActions()
         observeState()
@@ -67,9 +66,6 @@ class PostDetailFragment : Fragment(R.layout.fragment_post_detail) {
         editBodyButton.setOnClickListener {
             currentPost?.let { viewModel.startEditing(EditorTarget.BODY, it.body) }
         }
-
-        // The pill is shown only when the edit actually changed something, so
-        // saving an untouched field closes the editor without claiming a save.
         val save = View.OnClickListener {
             if (viewModel.commitEdit()) showSavedPill()
         }
@@ -128,6 +124,13 @@ class PostDetailFragment : Fragment(R.layout.fragment_post_detail) {
         body.isVisible = !editState.isEditingBody
 
         bindDraft(editState)
+        if (editState.target == EditorTarget.NONE) hideKeyboard()
+    }
+
+    private fun hideKeyboard() {
+        val view = view ?: return
+        WindowCompat.getInsetsController(requireActivity().window, view)
+            .hide(WindowInsetsCompat.Type.ime())
     }
 
     private fun bindDraft(editState: EditUiState) = with(binding) {

@@ -17,7 +17,7 @@ import com.berco.postapp.domain.model.Post
 import com.berco.postapp.domain.result.AppError
 import com.berco.postapp.presentation.posts.PostListUiState
 import com.berco.postapp.presentation.posts.PostsViewModel
-import com.berco.postapp.shared.ui.applyBottomSystemBarPadding
+import com.berco.postapp.shared.ui.applyBottomInsetPadding
 import com.berco.postapp.shared.ui.applyTopSystemBarPadding
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
@@ -55,7 +55,7 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
         adapter = this@PostListFragment.adapter
         setHasFixedSize(true)
         itemAnimator?.changeDuration = 0
-        applyBottomSystemBarPadding()
+        applyBottomInsetPadding()
 
         addItemDecoration(
             MaterialDividerItemDecoration(

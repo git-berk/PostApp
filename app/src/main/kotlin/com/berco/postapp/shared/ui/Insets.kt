@@ -25,10 +25,12 @@ fun View.applyTopSystemBarMargin() {
     }
 }
 
-fun View.applyBottomSystemBarPadding() {
+fun View.applyBottomInsetPadding() {
     val initialBottom = paddingBottom
     ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
-        val bottom = insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom
+        val bottom = insets
+            .getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.ime())
+            .bottom
         view.updatePadding(bottom = initialBottom + bottom)
         insets
     }
