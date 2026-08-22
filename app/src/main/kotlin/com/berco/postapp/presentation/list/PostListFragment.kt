@@ -68,7 +68,7 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
         )
 
         ItemTouchHelper(
-            SwipeToDeleteCallback(requireContext()) { postId -> viewModel.delete(postId.toInt()) },
+            SwipeToDeleteCallback(requireContext(), viewModel::delete),
         ).attachToRecyclerView(this)
     }
 

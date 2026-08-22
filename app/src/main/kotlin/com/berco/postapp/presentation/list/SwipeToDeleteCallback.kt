@@ -16,7 +16,7 @@ import com.berco.postapp.R
 // every frame of the swipe.
 class SwipeToDeleteCallback(
     context: Context,
-    private val onDelete: (postId: Long) -> Unit,
+    private val onDelete: (postId: Int) -> Unit,
 ) : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
     private val panelPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -45,10 +45,8 @@ class SwipeToDeleteCallback(
         target: RecyclerView.ViewHolder,
     ): Boolean = false
 
-    // Reports the stable id rather than a position, which the caller would have to
-    // resolve against a list that may already have moved on.
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        if (viewHolder.itemId != RecyclerView.NO_ID) onDelete(viewHolder.itemId)
+        if (viewHolder.itemId != RecyclerView.NO_ID) onDelete(viewHolder.itemId.toInt())
     }
 
     override fun onChildDraw(
