@@ -1,8 +1,23 @@
 package com.berco.postapp.domain.repository
 
 import com.berco.postapp.domain.model.Post
-import com.berco.postapp.domain.result.AppResult
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 
+// The data layer is the source of truth: both screens observe `posts` rather than
+// sharing a ViewModel.
 interface PostRepository {
-    suspend fun getPosts(): AppResult<List<Post>>
+    val posts: Flow<List<Post>>
+
+    val syncState: StateFlow<SyncState>
+
+    suspend fun refresh()
+
+    suspend fun refreshIfNeeded()
+
+    fun updateTitle(id: Int, title: String): Boolean
+
+    fun updateBody(id: Int, body: String): Boolean
+
+    fun delete(id: Int): Boolean
 }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -19,8 +20,8 @@ import com.berco.postapp.presentation.posts.PostsViewModel
 import com.berco.postapp.shared.ui.applyBottomSystemBarPadding
 import com.berco.postapp.shared.ui.applyTopSystemBarPadding
 import com.google.android.material.divider.MaterialDividerItemDecoration
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -29,9 +30,11 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
     private var _binding: FragmentPostListBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: PostsViewModel by hiltNavGraphViewModels(R.id.nav_graph)
+    private val viewModel: PostsViewModel by viewModels()
 
     private val adapter = PostListAdapter(::openDetail)
+
+    private var shownRefreshError: AppError? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -94,6 +97,7 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
                 binding.countTag.text =
                     resources.getQuantityString(R.plurals.posts_count, state.posts.size, state.posts.size)
                 adapter.submitList(state.posts)
+                state.refreshError?.let(::showRefreshError)
             }
 
             is PostListUiState.Empty -> {
@@ -116,7 +120,7 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
         stateTitle.setText(R.string.empty_title)
         stateMessage.setText(R.string.empty_message)
         stateAction.setText(R.string.reload)
-        stateAction.setOnClickListener { viewModel.load() }
+        stateAction.setOnClickListener { viewModel.refresh() }
     }
 
     private fun renderErrorState(error: AppError) = with(binding.stateView) {
@@ -125,7 +129,15 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
         stateTitle.setText(R.string.error_title)
         stateMessage.text = error.toMessage()
         stateAction.setText(R.string.retry)
-        stateAction.setOnClickListener { viewModel.load() }
+        stateAction.setOnClickListener { viewModel.refresh() }
+    }
+
+    private fun showRefreshError(error: AppError) {
+        if (shownRefreshError == error) return
+        shownRefreshError = error
+        Snackbar.make(binding.root, error.toMessage(), Snackbar.LENGTH_LONG)
+            .setAction(R.string.retry) { viewModel.refresh() }
+            .show()
     }
 
     private fun AppError.toMessage(): String = when (this) {

@@ -3,77 +3,53 @@ package com.berco.postapp.presentation.posts
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.berco.postapp.domain.model.Post
-import com.berco.postapp.domain.model.findById
-import com.berco.postapp.domain.model.withUpdatedBody
-import com.berco.postapp.domain.model.withUpdatedTitle
-import com.berco.postapp.domain.model.withoutPost
-import com.berco.postapp.domain.result.fold
-import com.berco.postapp.domain.usecase.GetPostsUseCase
+import com.berco.postapp.domain.repository.PostRepository
+import com.berco.postapp.domain.repository.SyncState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.getAndUpdate
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-// Scoped to the nav graph so the list and the detail screen read and write one
-// list. Edits made in detail are therefore already visible when the list resumes,
-// with no result plumbing between the two destinations.
+private const val STOP_TIMEOUT_MS = 5_000L
+
 @HiltViewModel
 class PostsViewModel @Inject constructor(
-    private val getPosts: GetPostsUseCase,
+    private val repository: PostRepository,
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<PostListUiState>(PostListUiState.Loading)
-    val uiState: StateFlow<PostListUiState> = _uiState.asStateFlow()
-
-    private var loadJob: Job? = null
+    val uiState: StateFlow<PostListUiState> =
+        combine(repository.posts, repository.syncState, ::toPostListUiState)
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(STOP_TIMEOUT_MS),
+                initialValue = PostListUiState.Loading,
+            )
 
     init {
-        load()
+        viewModelScope.launch { repository.refreshIfNeeded() }
     }
-    fun load() {
-        loadJob?.cancel()
-        _uiState.value = PostListUiState.Loading
-        loadJob = viewModelScope.launch {
-            _uiState.value = getPosts().fold(
-                onSuccess = { posts ->
-                    if (posts.isEmpty()) PostListUiState.Empty else PostListUiState.Content(posts)
-                },
-                onFailure = { PostListUiState.Error(it) },
-            )
-        }
+    fun refresh() =
+        viewModelScope.launch { repository.refresh() }
+
+    fun updateTitle(id: Int, title: String): Boolean = repository.updateTitle(id, title)
+
+    fun updateBody(id: Int, body: String): Boolean = repository.updateBody(id, body)
+
+    fun delete(id: Int) {
+        repository.delete(id)
     }
 
-    fun post(id: Int): Flow<Post?> = uiState
-        .map { it.postsOrNull()?.findById(id) }
-        .distinctUntilChanged()
-
-    fun currentPost(id: Int): Post? = uiState.value.postsOrNull()?.findById(id)
-
-    fun updateTitle(id: Int, title: String): Boolean = mutate { it.withUpdatedTitle(id, title) }
-
-    fun updateBody(id: Int, body: String): Boolean = mutate { it.withUpdatedBody(id, body) }
-
-    fun delete(id: Int): Boolean = mutate { it.withoutPost(id) }
-
-    private fun mutate(transform: (List<Post>) -> List<Post>): Boolean {
-        val previous = _uiState.getAndUpdate { state ->
-            val current = state as? PostListUiState.Content ?: return@getAndUpdate state
-            val updated = transform(current.posts)
-            when {
-                updated === current.posts -> state
-                updated.isEmpty() -> PostListUiState.Empty
-                else -> PostListUiState.Content(updated)
-            }
-        }
-        return previous !== _uiState.value
-    }
 }
+internal fun toPostListUiState(posts: List<Post>, sync: SyncState): PostListUiState = when {
+    posts.isNotEmpty() -> PostListUiState.Content(
+        posts = posts,
+        refreshError = (sync as? SyncState.Failed)?.error,
+    )
 
-private fun PostListUiState.postsOrNull(): List<Post>? = (this as? PostListUiState.Content)?.posts
+    sync is SyncState.Failed -> PostListUiState.Error(sync.error)
+    sync is SyncState.Loaded -> PostListUiState.Empty
+    else -> PostListUiState.Loading
+}
