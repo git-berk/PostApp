@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Organic's spacing scale is 1.10x density; values are rounded from styles.css. -->
+<resources>
+    <dimen name="space_1">4dp</dimen>
+    <dimen name="space_2">9dp</dimen>
+    <dimen name="space_3">13dp</dimen>
+    <dimen name="space_4">18dp</dimen>
+    <dimen name="space_6">26dp</dimen>
+    <dimen name="space_8">35dp</dimen>
+
+    <dimen name="radius_sm">8dp</dimen>
+    <dimen name="radius_md">16dp</dimen>
+    <dimen name="radius_lg">28dp</dimen>
+    <dimen name="radius_card">32dp</dimen>
+    <dimen name="radius_pill">999dp</dimen>
+
+    <dimen name="screen_gutter">24dp</dimen>
+    <dimen name="row_thumb_size">64dp</dimen>
+    <dimen name="detail_hero_height">260dp</dimen>
+    <dimen name="icon_button_size">36dp</dimen>
+    <dimen name="divider_height">1dp</dimen>
+</resources>

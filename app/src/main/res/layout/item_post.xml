@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg"
+    tools:ignore="Overdraw"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingHorizontal="@dimen/screen_gutter"
+    android:paddingVertical="@dimen/space_4">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/thumbnail"
+        android:layout_width="@dimen/row_thumb_size"
+        android:layout_height="@dimen/row_thumb_size"
+        android:contentDescription="@string/cd_post_image"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/Shape.Circle" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_4"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/Text.RowTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="sunt aut facere repellat provident" />
+
+        <TextView
+            android:id="@+id/snippet"
+            style="@style/Text.RowSnippet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            tools:text="quia et suscipit suscipit recusandae consequuntur expedita et cum" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_3"
+        android:contentDescription="@string/cd_open_post"
+        android:src="@drawable/ic_chevron_right" />
+</LinearLayout>

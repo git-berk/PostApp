@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PostApp</string>
+
+    <string name="posts_title">Posts</string>
+    <plurals name="posts_count">
+        <item quantity="one">%1$d item</item>
+        <item quantity="other">%1$d items</item>
+    </plurals>
+    <string name="swipe_hint">Swipe left to delete</string>
+    <string name="delete">Delete</string>
+
+    <string name="empty_title">Nothing here</string>
+    <string name="empty_message">You deleted every post.</string>
+    <string name="reload">Reload</string>
+
+    <string name="error_title">Couldn\'t load posts</string>
+    <string name="error_network">No connection. Check your network and try again.</string>
+    <string name="error_server">The server returned an error (%1$d).</string>
+    <string name="error_serialization">The server sent something unexpected.</string>
+    <string name="error_unknown">Something went wrong.</string>
+    <string name="retry">Retry</string>
+
+    <string name="post_badge">Post #%1$d</string>
+    <string name="description_label">Description</string>
+    <string name="title_label">Title</string>
+    <string name="edit">Edit</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="changes_saved">Changes saved</string>
+
+    <string name="cd_back">Back</string>
+    <string name="cd_post_image">Post image</string>
+    <string name="cd_open_post">Open post</string>
+</resources>

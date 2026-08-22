@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- One layout serves the empty and error states; they differ only in glyph,
+     tint and copy, and the design draws both flush left with generous air. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingHorizontal="40dp"
+    android:paddingTop="80dp">
+
+    <FrameLayout
+        android:id="@+id/stateIconHolder"
+        android:layout_width="@dimen/row_thumb_size"
+        android:layout_height="@dimen/row_thumb_size"
+        android:background="@drawable/bg_circle_accent_2_200">
+
+        <ImageView
+            android:id="@+id/stateIcon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_check_large" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/stateTitle"
+        style="@style/Text.Display.Empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        tools:text="Nothing here" />
+
+    <TextView
+        android:id="@+id/stateMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:fontFamily="@font/figtree"
+        android:lineSpacingMultiplier="1.2"
+        android:textColor="@color/neutral_700"
+        android:textSize="14.5sp"
+        tools:text="You deleted every post." />
+
+    <TextView
+        android:id="@+id/stateAction"
+        style="@style/Button.Secondary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        tools:text="Reload" />
+</LinearLayout>

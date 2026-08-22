@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Mirrors the design's linear-gradient: ink at the top for the back button and
+     badge, fading to the page ground so the hero melts into the content below. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="270"
+                android:startColor="@color/scrim_top"
+                android:centerColor="@color/transparent"
+                android:centerY="0.46"
+                android:endColor="@color/bg"
+                android:type="linear" />
+        </shape>
+    </item>
+</layer-list>

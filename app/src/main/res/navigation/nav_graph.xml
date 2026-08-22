@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/postListFragment">
+
+    <fragment
+        android:id="@+id/postListFragment"
+        android:name="com.berco.postapp.presentation.list.PostListFragment"
+        android:label="PostList"
+        tools:layout="@layout/fragment_post_list"
+        xmlns:tools="http://schemas.android.com/tools">
+        <action
+            android:id="@+id/action_list_to_detail"
+            app:destination="@id/postDetailFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/postDetailFragment"
+        android:name="com.berco.postapp.presentation.detail.PostDetailFragment"
+        android:label="PostDetail"
+        tools:layout="@layout/fragment_post_detail"
+        xmlns:tools="http://schemas.android.com/tools">
+        <argument
+            android:name="postId"
+            app:argType="integer" />
+    </fragment>
+</navigation>

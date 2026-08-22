@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<lint>
+    <!-- colors.xml and dimens.xml transcribe the Organic design system's token
+         set in full, including ramp steps this app doesn't happen to use yet.
+         Trimming them to current usage would make the next screen re-derive them. -->
+    <issue id="UnusedResources">
+        <ignore path="src/main/res/values/colors.xml" />
+        <ignore path="src/main/res/values/dimens.xml" />
+    </issue>
+
+    <!-- Lint suggests merging mipmap-anydpi-v26 into mipmap-anydpi at minSdk 33,
+         but AAPT2 does not link an adaptive icon from the unversioned folder. -->
+    <issue id="ObsoleteSdkInt">
+        <ignore path="src/main/res/mipmap-anydpi-v26" />
+    </issue>
+
+    <!-- Versions are pinned to the newest set where the Hilt Gradle plugin, its
+         KSP compiler and AGP 8 all agree. See README. -->
+    <issue id="AndroidGradlePluginVersion" severity="ignore" />
+    <issue id="GradleDependency" severity="ignore" />
+    <issue id="NewerVersionAvailable" severity="ignore" />
+</lint>

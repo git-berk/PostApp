@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    tools:ignore="Overdraw"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/screen_gutter"
+        android:paddingTop="@dimen/space_4"
+        android:paddingBottom="14dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:gravity="bottom"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/Text.Display.Screen"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/posts_title" />
+
+            <TextView
+                android:id="@+id/countTag"
+                style="@style/Tag.Neutral"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                tools:text="20 items" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/swipeHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_3"
+            android:drawablePadding="@dimen/space_2"
+            android:fontFamily="@font/figtree"
+            android:gravity="center_vertical"
+            android:text="@string/swipe_hint"
+            android:textColor="@color/neutral_600"
+            android:textSize="12.5sp"
+            app:drawableStartCompat="@drawable/ic_arrow_left_small"
+            app:drawableTint="@color/neutral_600" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/space_8"
+            tools:itemCount="5"
+            tools:listitem="@layout/item_post" />
+
+        <LinearLayout
+            android:id="@+id/skeleton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/space_2">
+
+            <include layout="@layout/item_post_skeleton" />
+
+            <include layout="@layout/item_post_skeleton" />
+
+            <include layout="@layout/item_post_skeleton" />
+
+            <include layout="@layout/item_post_skeleton" />
+
+            <include layout="@layout/item_post_skeleton" />
+        </LinearLayout>
+
+        <include
+            android:id="@+id/stateView"
+            layout="@layout/view_list_state" />
+    </FrameLayout>
+</LinearLayout>
