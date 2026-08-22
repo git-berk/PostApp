@@ -3,8 +3,8 @@ package com.berco.postapp.presentation.posts
 import com.berco.postapp.domain.model.Post
 
 private const val THUMB = 300
-private const val HERO_WIDTH = 600
-private const val HERO_HEIGHT = 400
+private const val HERO_WIDTH = 490
+private const val HERO_HEIGHT = 320
 
 fun Post.thumbnailUrl(): String = picsumUrl(THUMB, THUMB, imageIndex)
 

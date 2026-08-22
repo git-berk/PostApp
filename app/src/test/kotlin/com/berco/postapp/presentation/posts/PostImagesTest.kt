@@ -15,10 +15,10 @@ class PostImagesTest {
     }
 
     @Test
-    fun `hero requests 600x400 from the same seed as the thumbnail`() {
+    fun `hero requests 490x320 from the same seed as the thumbnail`() {
         val post = post(id = 1, imageIndex = 4)
 
-        assertEquals("https://picsum.photos/seed/5/600/400?grayscale", post.heroUrl())
+        assertEquals("https://picsum.photos/seed/5/490/320?grayscale", post.heroUrl())
         assertEquals("https://picsum.photos/seed/5/300/300?grayscale", post.thumbnailUrl())
     }
 
