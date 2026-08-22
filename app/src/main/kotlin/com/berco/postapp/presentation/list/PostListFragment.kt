@@ -83,7 +83,6 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
     private fun render(state: PostListUiState) {
         binding.skeleton.isVisible = state is PostListUiState.Loading
         binding.recyclerView.isVisible = state is PostListUiState.Content
-        binding.swipeHint.isVisible = state is PostListUiState.Content
         binding.stateView.root.isVisible =
             state is PostListUiState.Empty || state is PostListUiState.Error
 

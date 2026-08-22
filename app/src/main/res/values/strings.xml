@@ -7,7 +7,6 @@
         <item quantity="one">%1$d item</item>
         <item quantity="other">%1$d items</item>
     </plurals>
-    <string name="swipe_hint">Swipe left to delete</string>
     <string name="delete">Delete</string>
 
     <string name="empty_title">Nothing here</string>

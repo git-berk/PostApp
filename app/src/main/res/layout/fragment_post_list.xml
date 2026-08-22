@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
     android:layout_width="match_parent"
@@ -13,47 +12,27 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:baselineAligned="false"
+        android:gravity="bottom"
+        android:orientation="horizontal"
         android:paddingHorizontal="@dimen/screen_gutter"
         android:paddingTop="@dimen/space_4"
         android:paddingBottom="14dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            style="@style/Text.Display.Screen"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:baselineAligned="false"
-            android:gravity="bottom"
-            android:orientation="horizontal">
+            android:layout_weight="1"
+            android:text="@string/posts_title" />
 
-            <TextView
-                style="@style/Text.Display.Screen"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/posts_title" />
-
-            <TextView
-                android:id="@+id/countTag"
-                style="@style/Tag.Neutral"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                tools:text="20 items" />
-        </LinearLayout>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/swipeHint"
+        <TextView
+            android:id="@+id/countTag"
+            style="@style/Tag.Neutral"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_3"
-            android:drawablePadding="@dimen/space_2"
-            android:fontFamily="@font/figtree"
-            android:gravity="center_vertical"
-            android:text="@string/swipe_hint"
-            android:textColor="@color/neutral_600"
-            android:textSize="12.5sp"
-            app:drawableStartCompat="@drawable/ic_arrow_left_small"
-            app:drawableTint="@color/neutral_600" />
+            android:layout_marginBottom="4dp"
+            tools:text="20 items" />
     </LinearLayout>
 
     <FrameLayout
