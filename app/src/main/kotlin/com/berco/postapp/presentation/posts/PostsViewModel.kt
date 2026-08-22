@@ -11,6 +11,7 @@ import com.berco.postapp.domain.result.fold
 import com.berco.postapp.domain.usecase.GetPostsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -49,7 +50,7 @@ class PostsViewModel @Inject constructor(
         }
     }
 
-    fun post(id: Int) = uiState
+    fun post(id: Int): Flow<Post?> = uiState
         .map { it.postsOrNull()?.findById(id) }
         .distinctUntilChanged()
 
