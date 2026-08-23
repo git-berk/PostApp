@@ -34,7 +34,6 @@ class PostDetailFragment : Fragment(R.layout.fragment_post_detail) {
     private val binding get() = _binding!!
 
     private val viewModel: PostDetailViewModel by viewModels()
-    private var isBindingDraft = false
     private var boundImageIndex: Int? = null
     private var currentPost: Post? = null
     private var savedPillJob: Job? = null
@@ -75,13 +74,10 @@ class PostDetailFragment : Fragment(R.layout.fragment_post_detail) {
         cancelTitleButton.setOnClickListener { viewModel.cancelEditing() }
         cancelBodyButton.setOnClickListener { viewModel.cancelEditing() }
 
-        titleInput.doAfterTextChanged { onDraftTyped(it?.toString()) }
-        bodyInput.doAfterTextChanged { onDraftTyped(it?.toString()) }
+        titleInput.doAfterTextChanged { viewModel.onDraftChanged(it?.toString().orEmpty()) }
+        bodyInput.doAfterTextChanged { viewModel.onDraftChanged(it?.toString().orEmpty()) }
     }
 
-    private fun onDraftTyped(value: String?) {
-        if (!isBindingDraft) viewModel.onDraftChanged(value.orEmpty())
-    }
 
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launch {
@@ -141,10 +137,8 @@ class PostDetailFragment : Fragment(R.layout.fragment_post_detail) {
         }
         if (input.text.toString() == editState.draft) return
 
-        isBindingDraft = true
         input.setText(editState.draft)
         input.setSelection(input.text.length)
-        isBindingDraft = false
     }
 
     private fun showSavedPill() {

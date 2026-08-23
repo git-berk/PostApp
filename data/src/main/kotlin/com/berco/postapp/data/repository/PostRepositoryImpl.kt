@@ -29,7 +29,7 @@ class PostRepositoryImpl @Inject constructor(
 ) : PostRepository {
 
     private val cache = MutableStateFlow<List<Post>>(emptyList())
-    override val posts: Flow<List<Post>> = cache.asStateFlow()
+    override val posts: Flow<List<Post>> = cache.asStateFlow() // Replaceable with a Room Flow<List<Post>> later if needed.
 
     private val _syncState = MutableStateFlow<SyncState>(SyncState.NotLoaded)
     override val syncState: StateFlow<SyncState> = _syncState.asStateFlow()

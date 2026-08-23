@@ -4,8 +4,7 @@ import com.berco.postapp.domain.model.Post
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 
-// The data layer is the source of truth: both screens observe `posts` rather than
-// sharing a ViewModel.
+// The data layer is the source of truth: both screens observe `posts`.
 interface PostRepository {
     val posts: Flow<List<Post>>
 

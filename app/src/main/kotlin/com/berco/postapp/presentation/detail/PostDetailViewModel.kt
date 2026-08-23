@@ -50,8 +50,6 @@ class PostDetailViewModel @Inject constructor(
         )
 
     init {
-        // This screen can be the one restored after process death, with the list
-        // fragment never created, so it cannot rely on the list to load the data.
         viewModelScope.launch { repository.refreshIfNeeded() }
     }
 
