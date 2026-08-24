@@ -56,9 +56,9 @@ class PostDetailViewModel @Inject constructor(
     fun startEditing(target: EditorTarget, currentValue: String) {
         editState.value = EditUiState(target = target, draft = currentValue)
     }
-
-    fun onDraftChanged(value: String) {
-        editState.update { it.copy(draft = value) }
+    
+    fun onDraftChanged(target: EditorTarget, value: String) {
+        editState.update { if (it.target == target) it.copy(draft = value) else it }
     }
 
     fun cancelEditing() {

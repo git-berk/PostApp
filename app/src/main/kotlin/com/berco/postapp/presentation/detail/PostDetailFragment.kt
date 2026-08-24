@@ -16,7 +16,7 @@ import coil.load
 import com.berco.postapp.R
 import com.berco.postapp.databinding.FragmentPostDetailBinding
 import com.berco.postapp.domain.model.Post
-import com.berco.postapp.presentation.posts.heroUrl
+import com.berco.postapp.presentation.list.heroUrl
 import com.berco.postapp.shared.ui.applyBottomInsetPadding
 import com.berco.postapp.shared.ui.applyTopSystemBarMargin
 import dagger.hilt.android.AndroidEntryPoint
@@ -74,8 +74,12 @@ class PostDetailFragment : Fragment(R.layout.fragment_post_detail) {
         cancelTitleButton.setOnClickListener { viewModel.cancelEditing() }
         cancelBodyButton.setOnClickListener { viewModel.cancelEditing() }
 
-        titleInput.doAfterTextChanged { viewModel.onDraftChanged(it?.toString().orEmpty()) }
-        bodyInput.doAfterTextChanged { viewModel.onDraftChanged(it?.toString().orEmpty()) }
+        titleInput.doAfterTextChanged {
+            viewModel.onDraftChanged(EditorTarget.TITLE, it?.toString().orEmpty())
+        }
+        bodyInput.doAfterTextChanged {
+            viewModel.onDraftChanged(EditorTarget.BODY, it?.toString().orEmpty())
+        }
     }
 
 

@@ -1,5 +1,7 @@
 package com.berco.postapp.presentation.posts
 
+import com.berco.postapp.presentation.list.heroUrl
+import com.berco.postapp.presentation.list.thumbnailUrl
 import com.berco.postapp.testing.post
 import org.junit.Assert.assertEquals
 import org.junit.Test

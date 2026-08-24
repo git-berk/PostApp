@@ -3,6 +3,9 @@ package com.berco.postapp.presentation.posts
 import app.cash.turbine.test
 import com.berco.postapp.domain.repository.SyncState
 import com.berco.postapp.domain.result.AppError
+import com.berco.postapp.presentation.list.PostListUiState
+import com.berco.postapp.presentation.list.PostsViewModel
+import com.berco.postapp.presentation.list.toPostListUiState
 import com.berco.postapp.testing.FakePostRepository
 import com.berco.postapp.testing.MainDispatcherRule
 import com.berco.postapp.testing.post

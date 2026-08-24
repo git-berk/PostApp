@@ -123,7 +123,7 @@ class PostDetailViewModelTest {
         repository.setLoaded(posts(3))
         val viewModel = viewModel()
         viewModel.startEditing(EditorTarget.TITLE, "Title 2")
-        viewModel.onDraftChanged("half typed")
+        viewModel.onDraftChanged(EditorTarget.TITLE, "half typed")
 
         viewModel.startEditing(EditorTarget.BODY, "Body 2")
         advanceUntilIdle()
@@ -139,7 +139,7 @@ class PostDetailViewModelTest {
         val viewModel = viewModel()
         viewModel.startEditing(EditorTarget.TITLE, "before")
 
-        viewModel.onDraftChanged("after")
+        viewModel.onDraftChanged(EditorTarget.TITLE, "after")
         advanceUntilIdle()
 
         val edit = viewModel.content().edit
@@ -147,12 +147,25 @@ class PostDetailViewModelTest {
         assertTrue(edit.isEditingTitle)
     }
 
+    // The hidden editor's own restored text must not overwrite the open editor's draft.
+    @Test
+    fun `a draft change from an editor that is not open is ignored`() = runTest {
+        repository.setLoaded(posts(3))
+        val viewModel = viewModel()
+        viewModel.startEditing(EditorTarget.TITLE, "Title 2")
+
+        viewModel.onDraftChanged(EditorTarget.BODY, "")
+        advanceUntilIdle()
+
+        assertEquals("Title 2", viewModel.content().edit.draft)
+    }
+
     @Test
     fun `cancelEditing closes the editor and discards the draft`() = runTest {
         repository.setLoaded(posts(3))
         val viewModel = viewModel()
         viewModel.startEditing(EditorTarget.TITLE, "Title 2")
-        viewModel.onDraftChanged("discard me")
+        viewModel.onDraftChanged(EditorTarget.TITLE, "discard me")
 
         viewModel.cancelEditing()
         advanceUntilIdle()
@@ -168,7 +181,7 @@ class PostDetailViewModelTest {
         repository.setLoaded(posts(3))
         val viewModel = viewModel()
         viewModel.startEditing(EditorTarget.TITLE, "Title 2")
-        viewModel.onDraftChanged("edited")
+        viewModel.onDraftChanged(EditorTarget.TITLE, "edited")
 
         assertTrue(viewModel.commitEdit())
         advanceUntilIdle()
@@ -182,7 +195,7 @@ class PostDetailViewModelTest {
         repository.setLoaded(posts(3))
         val viewModel = viewModel()
         viewModel.startEditing(EditorTarget.BODY, "Body 2")
-        viewModel.onDraftChanged("edited")
+        viewModel.onDraftChanged(EditorTarget.BODY, "edited")
 
         viewModel.commitEdit()
         advanceUntilIdle()
@@ -196,7 +209,7 @@ class PostDetailViewModelTest {
         repository.setLoaded(posts(3))
         val viewModel = viewModel()
         viewModel.startEditing(EditorTarget.TITLE, "Title 2")
-        viewModel.onDraftChanged("   edited   ")
+        viewModel.onDraftChanged(EditorTarget.TITLE, "   edited   ")
 
         viewModel.commitEdit()
         advanceUntilIdle()
@@ -220,7 +233,7 @@ class PostDetailViewModelTest {
         repository.setLoaded(posts(3))
         val viewModel = viewModel()
         viewModel.startEditing(EditorTarget.TITLE, "Title 2")
-        viewModel.onDraftChanged("    ")
+        viewModel.onDraftChanged(EditorTarget.TITLE, "    ")
 
         assertFalse(viewModel.commitEdit())
         advanceUntilIdle()

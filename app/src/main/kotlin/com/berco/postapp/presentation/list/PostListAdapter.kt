@@ -8,7 +8,6 @@ import coil.load
 import com.berco.postapp.R
 import com.berco.postapp.databinding.ItemPostBinding
 import com.berco.postapp.domain.model.Post
-import com.berco.postapp.presentation.posts.thumbnailUrl
 
 private const val SNIPPET_MAX_CHARS = 78
 
