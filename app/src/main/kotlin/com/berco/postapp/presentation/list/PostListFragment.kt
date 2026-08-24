@@ -15,8 +15,6 @@ import com.berco.postapp.R
 import com.berco.postapp.databinding.FragmentPostListBinding
 import com.berco.postapp.domain.model.Post
 import com.berco.postapp.domain.result.AppError
-import com.berco.postapp.presentation.posts.PostListUiState
-import com.berco.postapp.presentation.posts.PostsViewModel
 import com.berco.postapp.shared.ui.applyBottomInsetPadding
 import com.berco.postapp.shared.ui.applyTopSystemBarPadding
 import com.google.android.material.divider.MaterialDividerItemDecoration
@@ -47,6 +45,7 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        binding.recyclerView.adapter = null
         _binding = null
     }
 
