@@ -1,4 +1,4 @@
-package com.berco.postapp.presentation.posts
+package com.berco.postapp.presentation.list
 
 import com.berco.postapp.domain.model.Post
 import com.berco.postapp.domain.result.AppError

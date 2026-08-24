@@ -1,4 +1,4 @@
-package com.berco.postapp.presentation.posts
+package com.berco.postapp.presentation.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
