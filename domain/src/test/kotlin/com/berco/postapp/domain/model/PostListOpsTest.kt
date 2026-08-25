@@ -109,6 +109,5 @@ class PostListOpsTest {
         userId = 1,
         title = "Title $id",
         body = "Body $id",
-        imageIndex = id - 1,
     )
 }

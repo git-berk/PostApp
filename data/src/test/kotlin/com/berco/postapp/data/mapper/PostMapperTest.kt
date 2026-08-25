@@ -18,22 +18,6 @@ class PostMapperTest {
     }
 
     @Test
-    fun `assigns imageIndex from the position in the fetched list`() {
-        val result = listOf(dto(id = 10), dto(id = 20), dto(id = 30)).toDomain()
-
-        assertEquals(listOf(0, 1, 2), result.map { it.imageIndex })
-    }
-
-    // imageIndex is positional, not derived from the id, so a non-contiguous or
-    // unsorted response still yields 0..n-1.
-    @Test
-    fun `imageIndex is independent of the post id`() {
-        val result = listOf(dto(id = 99), dto(id = 4)).toDomain()
-
-        assertEquals(listOf(0, 1), result.map { it.imageIndex })
-    }
-
-    @Test
     fun `collapses embedded newlines and runs of whitespace`() {
         val result = listOf(
             dto(title = "two\nlines", body = "spaced   out\n\ttext"),

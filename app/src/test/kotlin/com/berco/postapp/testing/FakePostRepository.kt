@@ -77,7 +77,6 @@ fun post(
     title: String = "Title $id",
     body: String = "Body $id",
     userId: Int = 1,
-    imageIndex: Int = id - 1,
-) = Post(id = id, userId = userId, title = title, body = body, imageIndex = imageIndex)
+) = Post(id = id, userId = userId, title = title, body = body)
 
 fun posts(count: Int): List<Post> = (1..count).map { post(it) }

@@ -34,7 +34,6 @@ class PostDetailFragment : Fragment(R.layout.fragment_post_detail) {
     private val binding get() = _binding!!
 
     private val viewModel: PostDetailViewModel by viewModels()
-    private var boundImageIndex: Int? = null
     private var currentPost: Post? = null
     private var savedPillJob: Job? = null
 
@@ -42,11 +41,11 @@ class PostDetailFragment : Fragment(R.layout.fragment_post_detail) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentPostDetailBinding.bind(view)
 
-        boundImageIndex = null
         binding.backButton.applyTopSystemBarMargin()
         binding.badge.applyTopSystemBarMargin()
         binding.scrollView.applyBottomInsetPadding()
 
+        loadHeroImage()
         setUpActions()
         observeState()
     }
@@ -54,6 +53,14 @@ class PostDetailFragment : Fragment(R.layout.fragment_post_detail) {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun loadHeroImage() {
+        binding.heroImage.load(heroUrl(viewModel.postId)) {
+            crossfade(false)
+            placeholder(R.drawable.post_placeholder)
+            error(R.drawable.post_placeholder)
+        }
     }
 
     private fun setUpActions() = with(binding) {
@@ -104,17 +111,6 @@ class PostDetailFragment : Fragment(R.layout.fragment_post_detail) {
         title.text = post.title
         body.text = post.body
         badge.text = getString(R.string.post_badge, post.id)
-
-        // Keyed on the image index rather than the post, so typing in a draft does
-        // not re-issue an image request on every character.
-        if (boundImageIndex != post.imageIndex) {
-            boundImageIndex = post.imageIndex
-            heroImage.load(post.heroUrl()) {
-                crossfade(false)
-                placeholder(R.drawable.post_placeholder)
-                error(R.drawable.post_placeholder)
-            }
-        }
 
         titleEditor.isVisible = editState.isEditingTitle
         editTitleButton.isVisible = !editState.isEditingTitle

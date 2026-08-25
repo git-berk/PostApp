@@ -62,7 +62,7 @@ class PostDiffCallbackTest {
     // correct outcome when the change is in a field the payload cannot describe.
     @Test
     fun `a change the payload cannot describe returns null`() {
-        val payload = PostDiffCallback.getChangePayload(post(1), post(1, imageIndex = 42))
+        val payload = PostDiffCallback.getChangePayload(post(1), post(1, userId = 42))
 
         assertNull(payload)
     }
