@@ -37,7 +37,6 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentPostListBinding.bind(view)
-
         binding.header.applyTopSystemBarPadding()
         setUpRecyclerView()
         observeState()
@@ -53,7 +52,7 @@ class PostListFragment : Fragment(R.layout.fragment_post_list) {
         layoutManager = LinearLayoutManager(requireContext())
         adapter = this@PostListFragment.adapter
         setHasFixedSize(true)
-        itemAnimator?.changeDuration = 0
+
         applyBottomInsetPadding()
 
         addItemDecoration(
